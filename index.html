@@ -13,12 +13,28 @@
     <h1>Financial Freedom</h1>
     <p>Unlock the secrets to long-term wealth and financial independence. This eBook is your step-by-step guide to building a secure financial future.</p>
     <h2>Price: ₹199</h2>
-    <a href="https://rzp.io/rzp/P4iOtXb" target="_blank">
-      <button class="buy-button">💳 Shop Now</button>
-    </a>
+    
+	<form id="paymentForm" onsubmit="handleSubmit(event)">
+		<label for="buyerEmail">Enter your email to receive the eBook:</label><br><br>
+		<input type="email" id="buyerEmail" name="buyerEmail" required placeholder="example@email.com" />
+		<br><br>
+		<button type="submit">💳 Shop Now – ₹199</button>
+	</form>
+	
   </div>
   
-  
+  <script>
+function handleSubmit(event) {
+  event.preventDefault();
+  const email = document.getElementById("buyerEmail").value;
+
+  // Save the email locally so it can be used on the Thank You page
+  localStorage.setItem("buyerEmail", email);
+
+  // Redirect to Razorpay Payment Page
+  window.location.href = "https://rzp.io/rzp/P4iOtXb";
+}
+</script>
   
 </body>
 </html>
