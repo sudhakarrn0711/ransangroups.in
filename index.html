@@ -42,21 +42,27 @@
   <div class="container">
     <h1>📘 Financial Freedom eBook</h1>
     <p>Get instant access to your eBook after payment.</p>
-    <form action="https://formsubmit.co/el/lazabe" method="POST">
-      <input type="email" name="email" required placeholder="Enter your email" />
-      <input type="hidden" name="_subject" value="🎉 Your Financial Freedom eBook from RanSan Groups!" />
-      <input type="hidden" name="message" value="Hi there,
 
-Thank you for your purchase from RanSan Groups!
 
-You can download your eBook here:
-https://ebook.ransangroups.in/financial_freedom.pdf
+<form action="https://formsubmit.co/sales@ransangroups.in" method="POST">
+  <!-- Buyer Email Input -->
+  <input type="email" name="email" required placeholder="Enter your email to receive the eBook" />
 
-For help, contact support@ransangroups.in" />
-      <input type="hidden" name="_next" value="https://rzp.io/rzp/ghGPW7G" />
-      <input type="hidden" name="_captcha" value="false" />
-      <button type="submit">💳 Shop Now – ₹199</button>
-    </form>
+  <!-- Custom Message (auto-sent in email) -->
+  <input type="hidden" name="message" value="🎉 Thank you for your purchase from RanSan Groups! 
+
+Download your eBook here:
+https://ebook.ransangroups.in/financial_freedom.pdf" />
+
+  <!-- Redirect to Razorpay after form submission -->
+  <input type="hidden" name="_next" value="https://rzp.io/rzp/ghGPW7G" />
+
+  <!-- Prevent spam -->
+  <input type="hidden" name="_captcha" value="false" />
+
+  <button type="submit">💳 Shop Now – ₹199</button>
+</form>
+
   </div>
 </body>
 </html>
