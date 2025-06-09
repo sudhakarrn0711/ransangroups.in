@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Thank You</title>
+  <title>Thank You - RanSan Groups</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -20,34 +19,43 @@
       max-width: 500px;
       margin: auto;
     }
+    .notice {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: #999;
+    }
   </style>
+
+  <!-- Load EmailJS -->
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      emailjs.init("nLvnLVUelUCUzAHWT"); // Replace with your Public Key
+
+      const email = localStorage.getItem("buyerEmail");
+
+      if (email) {
+        emailjs.send("service_v8zj9as", "template_3qyct7r", {
+          to_email: email,
+          to_name: "Customer",
+          attachment: "https://ebook.ransangroups.in/financial_freedom.pdf"
+        }).then(function(response) {
+          console.log("Email sent successfully!", response.status, response.text);
+        }, function(error) {
+          console.error("Email send failed:", error);
+        });
+      } else {
+        console.warn("No email found in localStorage");
+      }
+    });
+  </script>
 </head>
 <body>
   <div class="box">
     <h1>🎉 Thank You for Your Purchase!</h1>
-    <p>Your Financial Freedom eBook has been sent to your email 📧</p>
-    <p>Didn't receive it? Contact us at <b>ransangroups2025@gmail.com</b></p>
+    <p>Your Financial Freedom eBook is being sent to your email.</p>
+    <p>Didn't receive it? Contact us at <b>sales@ransangroups.in</b></p>
+    <div class="notice">Note: Please check your inbox or spam folder for the download link.</div>
   </div>
-  
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script>
-  (function(){
-    emailjs.init("YOUR_PUBLIC_KEY"); // from EmailJS dashboard
-  })();
-
-  window.onload = function() {
-    emailjs.send("service_v8zj9as", "template_662zpz1", {
-      to_email: "buyer@email.com",
-      to_name: "Customer",
-      attachment: "https://ebook.ransangroups.in/financial_freedom.pdf"
-    }).then(function(response) {
-      console.log("Email sent successfully!", response.status, response.text);
-    }, function(error) {
-      console.log("Email failed...", error);
-    });
-  };
-</script>
-
-  
 </body>
 </html>
