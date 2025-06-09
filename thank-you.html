@@ -28,5 +28,26 @@
     <p>Your Financial Freedom eBook has been sent to your email 📧</p>
     <p>Didn't receive it? Contact us at <b>ransangroups2025@gmail.com</b></p>
   </div>
+  
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("YOUR_PUBLIC_KEY"); // from EmailJS dashboard
+  })();
+
+  window.onload = function() {
+    emailjs.send("service_v8zj9as", "template_662zpz1", {
+      to_email: "buyer@email.com",
+      to_name: "Customer",
+      attachment: "https://ebook.ransangroups.in/financial_freedom.pdf"
+    }).then(function(response) {
+      console.log("Email sent successfully!", response.status, response.text);
+    }, function(error) {
+      console.log("Email failed...", error);
+    });
+  };
+</script>
+
+  
 </body>
 </html>
