@@ -1,13 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Thank You - RanSan Groups</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f6f6f6;
+      background: #f6f6f6;
       text-align: center;
       padding: 2rem;
     }
@@ -25,37 +26,13 @@
       color: #999;
     }
   </style>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const buyerEmail = localStorage.getItem("buyerEmail");
-
-      if (buyerEmail) {
-        fetch("https://script.google.com/macros/s/AKfycbzTdnIqoicTGXEMP_ZC4nopuefmDru3ZUwCR_bXQUiuPKZ-FrS3KBWgntODXPMryFnN/exec", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          body: "email=" + encodeURIComponent(buyerEmail)
-        })
-        .then(response => response.text())
-        .then(data => {
-          console.log("Email sent:", data);
-        })
-        .catch(error => {
-          console.error("Failed to send email:", error);
-        });
-      } else {
-        console.warn("Buyer email not found in localStorage.");
-      }
-    });
-  </script>
 </head>
 <body>
   <div class="box">
     <h1>🎉 Thank You for Your Purchase!</h1>
-    <p>Your Financial Freedom eBook is being sent to your email.</p>
-    <p>Didn't receive it? Contact us at <b>sales@ransangroups.in</b></p>
-    <div class="notice">Note: Please check your inbox or spam folder for the download link.</div>
+    <p>Your eBook has been sent to your email.</p>
+    <p>If you didn’t receive it, <b>contact us at sales@ransangroups.in</b></p>
+    <div class="notice">Please check your spam or promotions tab if it's missing.</div>
   </div>
 </body>
 </html>
