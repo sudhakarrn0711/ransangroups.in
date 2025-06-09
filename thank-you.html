@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,27 +26,27 @@
       color: #999;
     }
   </style>
-
-  <!-- Load EmailJS -->
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      emailjs.init("h7wHv5_XLhIsj1tE3"); // Replace with your Public Key
+    document.addEventListener("DOMContentLoaded", function () {
+      const buyerEmail = localStorage.getItem("buyerEmail");
 
-      const email = localStorage.getItem("buyerEmail");
-
-      if (email) {
-        emailjs.send("service_v8zj9as", "template_3qyct7r", {
-          to_email: email,
-          to_name: "Customer",
-          attachment: "https://ebook.ransangroups.in/financial_freedom.pdf"
-        }).then(function(response) {
-          console.log("Email sent successfully!", response.status, response.text);
-        }, function(error) {
-          console.error("Email send failed:", error);
+      if (buyerEmail) {
+        fetch("https://script.google.com/macros/s/AKfycbzTdnIqoicTGXEMP_ZC4nopuefmDru3ZUwCR_bXQUiuPKZ-FrS3KBWgntODXPMryFnN/exec", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: "email=" + encodeURIComponent(buyerEmail)
+        })
+        .then(response => response.text())
+        .then(data => {
+          console.log("Email sent:", data);
+        })
+        .catch(error => {
+          console.error("Failed to send email:", error);
         });
       } else {
-        console.warn("No email found in localStorage");
+        console.warn("Buyer email not found in localStorage.");
       }
     });
   </script>
