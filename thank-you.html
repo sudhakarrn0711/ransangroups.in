@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,32 +5,41 @@
   <title>Thank You - RanSan Groups</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f6f6f6;
-      text-align: center;
-      padding: 2rem;
-    }
-    .box {
-      background: #fff;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 500px;
-      margin: auto;
-    }
-    .notice {
-      margin-top: 1.5rem;
-      font-size: 0.9rem;
-      color: #999;
-    }
+    body { font-family: Arial; background: #f6f6f6; text-align: center; padding: 2rem; }
+    .box { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+    .notice { margin-top: 1.5rem; font-size: 0.9rem; color: #999; }
   </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const url = new URL(window.location.href);
+      const email = url.searchParams.get("email");
+
+      if (email) {
+        fetch("https://script.google.com/macros/s/AKfycbw3PvrPEVgLzegCnwLIpCBz__VVgHOFnpPugnVVt9RJbM6rjb8QntGzaHVudkjNCuWu/exec", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: "email=" + encodeURIComponent(email)
+        })
+        .then(response => response.text())
+        .then(data => {
+          console.log("Email sent:", data);
+          document.querySelector(".notice").innerText = "✅ eBook sent successfully!";
+        })
+        .catch(error => {
+          console.error("Failed to send email:", error);
+          document.querySelector(".notice").innerText = "❌ Failed to send email. Please contact support.";
+        });
+      } else {
+        document.querySelector(".notice").innerText = "❌ Email not found. Please contact support.";
+      }
+    });
+  </script>
 </head>
 <body>
   <div class="box">
     <h1>🎉 Thank You for Your Purchase!</h1>
-    <p>Your eBook has been sent to your email.</p>
-    <p>If you didn’t receive it, <b>contact us at sales@ransangroups.in</b></p>
+    <p>Your eBook has been sent to your email address.</p>
+    <p>If you didn’t receive it, <b>contact sales@ransangroups.in</b></p>
     <div class="notice">Please check your spam or promotions tab if it's missing.</div>
   </div>
 </body>
