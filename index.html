@@ -29,34 +29,37 @@
         return;
       }
 
-      const options = {
-        key: "rzp_live_5Hzr5OWfhuFee6, // <-- Replace with your Razorpay public key
-        amount: 49900, // in paise = ₹499
-        currency: "INR",
-        name: "RanSan Groups",
-        description: "Financial Freedom eBook",
-        handler: function (response) {
-          // Send email only after payment is successful
-          fetch("https://script.google.com/macros/s/AKfycbx6ceCS6pVAH60gPWAJXjtsaBzZxdsazmLNdL1VALJVqltlR-wt-B2LA05IH-SnHBLE/exec", { // <-- Replace with your Apps Script Web App URL
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: "email=" + encodeURIComponent(email)
-          })
-          .then(res => res.text())
-          .then(data => {
-            window.location.href = "thank-you.html?email=" + encodeURIComponent(email);
-          })
-          .catch(error => {
-            console.error("Email sending failed:", error);
-            window.location.href = "thank-you.html?error=email";
-          });
-        },
-        prefill: { email: email },
-        theme: { color: "#9a22f6" }
-      };
-
-      const rzp = new Razorpay(options);
-      rzp.open();
+      fetch("https://script.google.com/macros/s/AKfycbzdxTaYkr7KkNWB4EegXyTePXr9-v6brK8mXXIS-xSPdnWddRF0t2gc7UqlPyN_ySfM/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "email=" + encodeURIComponent(email)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.order_id) {
+          const options = {
+            key: "rzp_test_Y9HtA7gfKcYDXw",
+            amount: 100, // ₹1 in paise
+            currency: "INR",
+            name: "RanSan Groups",
+            description: "Financial Freedom eBook",
+            order_id: data.order_id,
+            handler: function () {
+              window.location.href = "thank-you.html?email=" + encodeURIComponent(email);
+            },
+            prefill: { email: email },
+            theme: { color: "#9a22f6" }
+          };
+          const rzp = new Razorpay(options);
+          rzp.open();
+        } else {
+          document.getElementById("warning").textContent = "Failed to start payment. Try again.";
+        }
+      })
+      .catch(err => {
+        console.error("Order API error:", err);
+        document.getElementById("warning").textContent = "Something went wrong.";
+      });
     }
   </script>
 </body>
