@@ -4,7 +4,13 @@
   <meta charset="UTF-8" />
   <title>Get eBook - RanSan Groups</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <style> ... </style> <!-- same styles as before -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    body { font-family: Arial; background: #f0f0f0; text-align: center; padding: 2rem; }
+    .form-box { background: white; padding: 2rem; max-width: 400px; margin: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input, button { width: 100%; padding: 10px; margin-top: 10px; font-size: 1rem; }
+    button { background-color: #9a22f6; color: white; border: none; border-radius: 5px; cursor: pointer; }
+  </style>
 </head>
 <body>
   <div class="form-box">
@@ -17,13 +23,44 @@
 
   <script>
     function startPayment() {
-      const email = document.getElementById("email").value;
+      const email = document.getElementById("email").value.trim();
       if (!email.includes("@")) {
         document.getElementById("warning").textContent = "Please enter a valid email address.";
         return;
       }
-      localStorage.setItem("buyerEmail", email);
-      window.location.href = "https://rzp.io/r/ghGPW7G";
+
+      const options = {
+        key: "rzp_live_5Hzr5OWfhuFee6", // TODO: Replace with your Razorpay public key
+        amount: 1, // in paise = ₹499
+        currency: "INR",
+        name: "RanSan Groups",
+        description: "Financial Freedom eBook",
+        handler: function (response) {
+          // Send email only after payment is successful
+          fetch("https://script.google.com/macros/s/AKfycbw8NHpxqgpjSVKPqgnTVs3Nxj6Wk8fPUYtiAqicn2j4qSxBcU3AIJOBYxffzxFcqpxj/exec", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: "email=" + encodeURIComponent(email)
+          })
+          .then(res => res.text())
+          .then(data => {
+            window.location.href = "thank-you.html?email=" + encodeURIComponent(email);
+          })
+          .catch(error => {
+            console.error("Email sending failed:", error);
+            window.location.href = "thank-you.html?error=email";
+          });
+        },
+        prefill: {
+          email: email,
+        },
+        theme: {
+          color: "#9a22f6"
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
     }
   </script>
 </body>
