@@ -13,15 +13,20 @@
     document.addEventListener("DOMContentLoaded", function () {
       const url = new URL(window.location.href);
       const email = url.searchParams.get("email");
-      const error = url.searchParams.get("error");
-
-      if (error === "email") {
-        document.querySelector(".notice").innerText = "❌ Payment succeeded but failed to send email. Please contact support.";
-        return;
-      }
 
       if (email) {
-        document.querySelector(".notice").innerText = "✅ eBook sent successfully!";
+        fetch("https://script.google.com/macros/s/AKfycbz0ysKawTFlWs_9DVhTGxDWg9gBklLwdSMcf910kGhsfMRXXkZhObuQc-KajJ0twBrF/exec", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: "email=" + encodeURIComponent(email)
+        })
+        .then(res => res.text())
+        .then(() => {
+          document.querySelector(".notice").innerText = "✅ eBook sent successfully!";
+        })
+        .catch(() => {
+          document.querySelector(".notice").innerText = "❌ Payment succeeded but email failed. Contact support.";
+        });
       } else {
         document.querySelector(".notice").innerText = "❌ Email not found. Please contact support.";
       }
@@ -33,7 +38,7 @@
     <h1>🎉 Thank You for Your Purchase!</h1>
     <p>Your eBook has been sent to your email address.</p>
     <p>If you didn’t receive it, <b>contact sales@ransangroups.in</b></p>
-    <div class="notice">Please check your spam or promotions tab if it's missing.</div>
+    <div class="notice">Sending eBook...</div>
   </div>
 </body>
 </html>
