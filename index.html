@@ -1,65 +1,45 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>Get eBook - RanSan Groups</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Financial Freedom eBook - RanSan Groups</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      padding: 2rem;
-      text-align: center;
-    }
-    .container {
-      background: #fff;
-      max-width: 500px;
-      margin: auto;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    input, button {
-      padding: 10px;
-      margin: 10px 0;
-      width: 100%;
-      font-size: 1rem;
-    }
-    button {
-      background-color: #9a22f6;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    h1 {
-      color: #333;
-    }
+    body { font-family: Arial; background: #f0f0f0; text-align: center; padding: 2rem; }
+    .form-box { background: white; padding: 2rem; max-width: 400px; margin: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input, button { width: 100%; padding: 10px; margin-top: 10px; font-size: 1rem; }
+    button { background-color: #9a22f6; color: white; border: none; border-radius: 5px; cursor: pointer; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>📘 Financial Freedom eBook</h1>
-    <p>Get instant access to your eBook after payment.</p>
-
-
-<form action="https://formsubmit.co/sales@ransangroups.in" method="POST">
-  <!-- Buyer Email Input -->
-  <input type="email" name="email" required placeholder="Enter your email to receive the eBook" />
-
-  <!-- Custom Message (auto-sent in email) -->
- <input type="hidden" name="_autoresponse" value="Thanks for your purchase. Here's your eBook: https://ebook.ransangroups.in/financial_freedom.pdf" />
-
-  <!-- Redirect to Razorpay after form submission -->
-  <input type="hidden" name="_next" value="https://www.ransangroups.in/ebooks/redirect.html" />
-
-  <!-- Prevent spam -->
-  <input type="hidden" name="_captcha" value="false" />
-
-  <button type="submit">💳 Shop Now – ₹199</button>
-</form>
-
+  <div class="form-box">
+    <h2>📘 Financial Freedom eBook</h2>
+    <p>Enter your email to receive the eBook after payment.</p>
+    <input type="email" id="email" placeholder="Enter your email" required />
+    <button onclick="startPayment()">Proceed to Payment</button>
+    <p id="warning" style="color: red;"></p>
   </div>
+
+  <script>
+    function startPayment() {
+      const email = document.getElementById("email").value;
+      if (!email.includes("@")) {
+        document.getElementById("warning").textContent = "Please enter a valid email address.";
+        return;
+      }
+
+      const encodedEmail = encodeURIComponent(email);
+      const paymentUrl = "https://rzp.io/r/ghGPW7G";
+      const popup = window.open(paymentUrl, "_blank");
+
+      const pollTimer = window.setInterval(function () {
+        if (popup.closed !== false) {
+          window.clearInterval(pollTimer);
+          window.location.href = "thank-you.html?email=" + encodedEmail;
+        }
+      }, 1000);
+    }
+  </script>
 </body>
 </html>
