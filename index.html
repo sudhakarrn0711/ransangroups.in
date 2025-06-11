@@ -10,6 +10,7 @@
     .form-box { background: white; padding: 2rem; max-width: 400px; margin: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
     input, button { width: 100%; padding: 10px; margin-top: 10px; font-size: 1rem; }
     button { background-color: #9a22f6; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    #loading { margin-top: 10px; font-size: 0.9rem; color: #555; display: none; }
   </style>
 </head>
 <body>
@@ -19,13 +20,21 @@
     <input type="email" id="email" placeholder="Enter your email" required />
     <button onclick="startPayment()">Proceed to Payment</button>
     <p id="warning" style="color: red;"></p>
+    <p id="loading">Please wait, preparing payment...</p>
   </div>
 
   <script>
     function startPayment() {
       const email = document.getElementById("email").value.trim();
+      const warning = document.getElementById("warning");
+      const loading = document.getElementById("loading");
+
+      warning.textContent = "";
+      loading.style.display = "block";
+
       if (!email.includes("@")) {
-        document.getElementById("warning").textContent = "Please enter a valid email address.";
+        loading.style.display = "none";
+        warning.textContent = "Please enter a valid email address.";
         return;
       }
 
@@ -36,10 +45,11 @@
       })
       .then(res => res.json())
       .then(data => {
+        loading.style.display = "none";
         if (data.order_id) {
           const options = {
             key: "rzp_test_Y9HtA7gfKcYDXw",
-            amount: 100, // ₹1 in paise
+            amount: 1000,
             currency: "INR",
             name: "RanSan Groups",
             description: "Financial Freedom eBook",
@@ -53,12 +63,13 @@
           const rzp = new Razorpay(options);
           rzp.open();
         } else {
-          document.getElementById("warning").textContent = "Failed to start payment. Try again.";
+          warning.textContent = "Failed to start payment. Try again.";
         }
       })
       .catch(err => {
+        loading.style.display = "none";
         console.error("Order API error:", err);
-        document.getElementById("warning").textContent = "Something went wrong.";
+        warning.textContent = "Something went wrong.";
       });
     }
   </script>
